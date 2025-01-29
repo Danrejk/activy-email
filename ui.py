@@ -17,14 +17,16 @@ def apply_theme_to_titlebar(root):
         root.wm_attributes("-alpha", 0.99)
         root.wm_attributes("-alpha", 1)
 
-root = tkinter.Tk()
 
-button = ttk.Button(root, text="Click me!")
+# ui itself
+window = tkinter.Tk()
+
+button = ttk.Button(window, text="Click me!")
 button.pack()
 
-# This is where the magic happens
+# apply theme
 sv_ttk.set_theme("dark")
-apply_theme_to_titlebar(root)
+apply_theme_to_titlebar(window)
 
-root.mainloop()
+window.mainloop()
 
