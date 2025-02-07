@@ -2,10 +2,9 @@ import cv2
 import numpy as np
 import pyautogui
 
-
 def find_image_on_screen(template_path, threshold=0.8):
     """
-    Continuously search for an image on the screen, log its position if found, and display the result in a live feed.
+    Search for an image on the screen in real-time, display its position and confidence below the rectangle and circle.
 
     :param template_path: Path to the image file to search for.
     :param threshold: Confidence threshold for matching (default is 0.8).
@@ -16,11 +15,15 @@ def find_image_on_screen(template_path, threshold=0.8):
         print(f"Error: Unable to load image from {template_path}")
         return
 
-    # Get the template dimensions
+    # Get the dimensions of the template image
     template_height, template_width = template.shape[:2]
 
-    # Create a window to display the live feed
-    cv2.namedWindow("Live Image Detection", cv2.WINDOW_NORMAL)
+    # Create a named window for displaying the live feed
+    cv2.namedWindow("Live Feed", cv2.WINDOW_NORMAL)
+
+    font = cv2.FONT_HERSHEY_PLAIN  # Use plain for a clean computer-like font
+    font_scale = 0.8
+    thickness = 1  # Make the font thicker
 
     while True:
         # Take a screenshot of the screen
@@ -35,11 +38,9 @@ def find_image_on_screen(template_path, threshold=0.8):
         if max_val >= threshold:
             print(f"Image found at position: {max_loc} with confidence: {max_val:.2f}")
 
-            # Get the coordinates of the matched area
+            # Draw a rectangle around the detected area (green color)
             top_left = max_loc
             bottom_right = (top_left[0] + template_width, top_left[1] + template_height)
-
-            # Draw a rectangle around the detected area
             cv2.rectangle(screenshot, top_left, bottom_right, (0, 255, 0), 2)  # Green rectangle with thickness 2
 
             # Calculate the center of the rectangle (middle of the detected object)
@@ -48,23 +49,41 @@ def find_image_on_screen(template_path, threshold=0.8):
 
             # Draw a red dot at the center of the detected object
             cv2.circle(screenshot, (center_x, center_y), 5, (0, 0, 255), -1)  # Red dot with radius 5
-        else:
-            print("Image not found on the screen.")
 
-        # Display the screenshot with the detected area and red dot in the same window
-        cv2.imshow("Live Image Detection", screenshot)
+            # Display the coordinates of the rectangle (green text)
+            coords_text = f"POS: {max_loc}"
+            coords_text_size = cv2.getTextSize(coords_text, font, font_scale, thickness)[0]
+            coords_text_x = top_left[0]
+            coords_text_y = bottom_right[1] + 20  # Position the text 20px below the rectangle
+            cv2.putText(screenshot, coords_text, (coords_text_x, coords_text_y), font, font_scale, (0, 255, 0), thickness)
 
-        # Exit the loop if the user presses the 'Esc' key
-        if cv2.waitKey(1) & 0xFF == 27:  # 27 is the ASCII value for the ESC key
+            # Display the confidence below the coordinates (green text)
+            confidence_text = f"CONF: {max_val:.2f}"
+            confidence_text_size = cv2.getTextSize(confidence_text, font, font_scale, thickness)[0]
+            confidence_text_x = top_left[0]
+            confidence_text_y = coords_text_y + 20  # Position the text 20px below the coordinates
+            cv2.putText(screenshot, confidence_text, (confidence_text_x, confidence_text_y), font, font_scale, (0, 255, 0), thickness)
+
+            # Display the coordinates below the circle (red text)
+            circle_text = f"({center_x}, {center_y})"
+            circle_text_size = cv2.getTextSize(circle_text, font, font_scale, thickness)[0]
+            circle_text_x = center_x - circle_text_size[0] // 2  # Center the text below the circle
+            circle_text_y = center_y + 20  # Position the text 20px below the circle
+            cv2.putText(screenshot, circle_text, (circle_text_x, circle_text_y), font, font_scale, (0, 0, 255), thickness)
+
+        # Display the screenshot with the detected area and red dot
+        cv2.imshow("Live Feed", screenshot)
+
+        # Break the loop if 'q' is pressed
+        if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
-    # Close the OpenCV window
+    # Release the window and destroy all OpenCV windows
     cv2.destroyAllWindows()
-
 
 if __name__ == "__main__":
     # Path to the image you want to search for
     template_image_path = "github_dashboard.png"  # Replace with your image path
 
-    # Call the function to search for the image in a live feed
+    # Call the function to search for the image in real-time
     find_image_on_screen(template_image_path)
