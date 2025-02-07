@@ -1,11 +1,10 @@
 import cv2
 import numpy as np
 import pyautogui
-import time
 
 def find_image_on_screen(template_path, threshold=0.8):
     """
-    Search for an image on the screen and log its position if found.
+    Search for an image on the screen, log its position if found, and display a window highlighting the match.
 
     :param template_path: Path to the image file to search for.
     :param threshold: Confidence threshold for matching (default is 0.8).
@@ -30,6 +29,26 @@ def find_image_on_screen(template_path, threshold=0.8):
     # Check if the match is above the threshold
     if max_val >= threshold:
         print(f"Image found at position: {max_loc} with confidence: {max_val:.2f}")
+
+        # Get the dimensions of the template image
+        template_height, template_width = template.shape[:2]
+
+        # Draw a rectangle around the detected area
+        top_left = max_loc
+        bottom_right = (top_left[0] + template_width, top_left[1] + template_height)
+        cv2.rectangle(screenshot, top_left, bottom_right, (0, 255, 0), 2)  # Green rectangle with thickness 2
+
+        # Calculate the center of the rectangle (middle of the detected object)
+        center_x = top_left[0] + template_width // 2
+        center_y = top_left[1] + template_height // 2
+
+        # Draw a red dot at the center of the detected object
+        cv2.circle(screenshot, (center_x, center_y), 5, (0, 0, 255), -1)  # Red dot with radius 5
+
+        # Display the screenshot with the detected area and red dot
+        cv2.imshow("Detected Image", screenshot)
+        cv2.waitKey(0)  # Wait for a key press to close the window
+        cv2.destroyAllWindows()
     else:
         print("Image not found on the screen.")
 
