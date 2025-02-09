@@ -1,8 +1,9 @@
 import tkinter
 from tkinter import ttk
 
+import pywinstyles
 import sv_ttk
-import pywinstyles, sys
+import sys
 
 def apply_theme_to_titlebar(root):
     version = sys.getwindowsversion()
