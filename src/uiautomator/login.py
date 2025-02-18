@@ -1,27 +1,18 @@
-def Login(device, email, password):
+from utils.clickNodeByClassInstance import clickNodeByClassInstance
+from utils.setNodeTextByClassInstance import setNodeTextByClassInstance
 
+def Login(device, email, password):
     # click log in to get to the login prompts
-    initial_login_button = device(className="android.view.View", instance=8)
-    initial_login_button.click()
+    clickNodeByClassInstance(device, "android.view.View", 8)
 
     # Wait until at least one EditText is visible (adjust timeout as needed)
     device(className="android.widget.EditText").wait(timeout=10)
 
     # put in email
-    email_field = device(className="android.widget.EditText", instance=0)
-    email_field.wait(timeout=10)
-    email_field.click()
-    email_field.set_text(email)
-    device.press("back")
+    setNodeTextByClassInstance(device, "android.widget.EditText", 0, email)
 
     # put in password
-    password_field = device(className="android.widget.EditText", instance=1)
-    password_field.wait(timeout=10)
-    password_field.click()
-    password_field.set_text(password)
-    device.press("back")
+    setNodeTextByClassInstance(device, "android.widget.EditText", 1, password)
 
     # click log in
-    login_button = device(className="android.view.View", instance=7)  # the instance index changes if a wrong password is given
-    login_button.wait(timeout=5)
-    login_button.click()
+    clickNodeByClassInstance(device, "android.view.View", 7)

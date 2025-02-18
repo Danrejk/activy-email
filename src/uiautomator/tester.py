@@ -7,6 +7,6 @@ from utils.listViewInstances import ListViewInstances
 d = u2.connect()
 
 # Login(d, "email@e.com", "password1")
-# Register(d, "email@e.com", "Password1") # make sure the password complies with their password rules
+Register(d, "email@e.com", "Password1", "Andrzej", "Pliszka", "AndrzejPliszka") # make sure the password complies with their password rules
 
 ListViewInstances(d)

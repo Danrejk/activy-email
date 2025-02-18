@@ -1,40 +1,44 @@
+from utils.clickNodeByClassInstance import clickNodeByClassInstance
+from utils.setNodeTextByClassInstance import setNodeTextByClassInstance
+
 def Register(device, email, password, name, surname, nickname):
 
 # 1st screen
     # click log in to get to the login prompts
-    register_button = device(className="android.view.View", instance=6)
-    register_button.click()
+    lastOn1stScreen = clickNodeByClassInstance(device, "android.view.View", 6)
 
 # 2nd screen
     # Wait until at least one EditText is visible (adjust timeout as needed)
     device(className="android.widget.EditText").wait(timeout=10)
+    # lastOn1stScreen.wait_gone(timeout=10) # this is buggy for some reason
 
     # put in email
-    email_field = device(className="android.widget.EditText", instance=0)
-    email_field.wait(timeout=10)
-    email_field.click()
-    email_field.set_text(email)
-    device.press("back")
+    setNodeTextByClassInstance(device, "android.widget.EditText", 0, email)
 
     # put in password
-    password_field = device(className="android.widget.EditText", instance=1)
-    password_field.wait(timeout=10)
-    password_field.click()
-    password_field.set_text(password)
-    device.press("back")
+    setNodeTextByClassInstance(device, "android.widget.EditText", 1, password)
 
     # put in password again
-    password_field = device(className="android.widget.EditText", instance=2)
-    password_field.wait(timeout=10)
-    password_field.click()
-    password_field.set_text(password)
-    device.press("back")
+    setNodeTextByClassInstance(device, "android.widget.EditText", 2, password)
 
     # click agree and register
-    register_button = device(className="android.view.View", instance=16)
-    register_button.wait(timeout=5)
-    register_button.click()
+    lastOn2ndScreen = clickNodeByClassInstance(device, "android.view.View", 16)
 
 # 3rd screen
+    device(className="android.widget.EditText").wait(timeout=1)
+    lastOn2ndScreen.wait_gone(timeout=10)
+
+    # put name
+    setNodeTextByClassInstance(device, "android.widget.EditText", 0, name)
+
+    # put surname
+    setNodeTextByClassInstance(device, "android.widget.EditText", 1, surname)
+
+    # put nickname
+    setNodeTextByClassInstance(device, "android.widget.EditText", 2, nickname)
+
+    # click next
+    clickNodeByClassInstance(device, "android.view.View", 13)
     
-### Here the avatar, name, surname and nickname will be put in. for now i'm not doing it to see how they will be handled
+# 4th screen
+
