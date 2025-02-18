@@ -15,4 +15,4 @@ def Login(device, email, password):
     setNodeTextByClassInstance(device, "android.widget.EditText", 1, password)
 
     # click log in
-    clickNodeByClassInstance(device, "android.view.View", 7)
+    clickNodeByClassInstance(device, "android.view.View", 7, 2)

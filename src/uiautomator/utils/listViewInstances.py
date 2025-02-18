@@ -1,7 +1,24 @@
 def ListViewInstances(device):
+    # Dump the full hierarchy for context
+    print(device.dump_hierarchy())
 
-    print(device.dump_hierarchy())  # Print all elements on the screen
+    # Get all instances of android.view.View
+    views = device(className="android.view.View")
+    print(f"Found {len(views)} views.\n")
 
-    views = device(className="android.view.View") # List all instances of android.view.View
     for i, view in enumerate(views):
-        print(f"Instance {i}: {view.info}")
+        try:
+            info = view.info
+            print(f"Instance {i}: {info}")
+            childCount = info.get("childCount", 0)
+            if childCount > 0:
+                print(f"  --> This instance has {childCount} child(ren):")
+                for j in range(childCount):
+                    try:
+                        # Use the indexing operator to get the j-th child
+                        child = view[j]
+                        print(f"      Child {j}: {child.info}")
+                    except Exception as ce:
+                        print(f"      Child {j}: Error reading child: {ce}")
+        except Exception as e:
+            print(f"Error reading instance {i}: {e}")
