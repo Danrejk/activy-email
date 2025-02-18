@@ -1,12 +1,4 @@
-# left for easier debuging
-
-# print(device.dump_hierarchy())  # Print all elements on the screen
-
-# views = device(className="android.view.View") # List all instances of android.view.View
-# for i, view in enumerate(views):
-#     print(f"Instance {i}: {view.info}")
-
-def Login(device, login, password):
+def Login(device, email, password):
 
     # click log in to get to the login prompts
     initial_login_button = device(className="android.view.View", instance=8)
@@ -19,7 +11,7 @@ def Login(device, login, password):
     email_field = device(className="android.widget.EditText", instance=0)
     email_field.wait(timeout=10)
     email_field.click()
-    email_field.set_text(login)
+    email_field.set_text(email)
     device.press("back")
 
     # put in password
