@@ -2,48 +2,52 @@ from src.uiautomator.utils.waitForElement import waitForElement
 from utils.clickNodeByClassInstance import clickNodeByClassInstance
 from utils.setNodeTextByClassInstance import setNodeTextByClassInstance
 
-def Register(device, email, password, name, surname, nickname):
-
-# 1st screen
-    # click log in to get to the login prompts
-    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 6)
-
-# 2nd screen
-    # Wait until at least one EditText is visible (adjust timeout as needed)
+def registerStage1(device):
+    """
+    Stage 1: Click the register button.
+    """
+    last_node = clickNodeByClassInstance(device, "android.view.View", 6)
+    last_node.wait_gone(timeout=10)
+    # Wait until at least one EditText is visible
     device(className="android.widget.EditText").wait(timeout=50)
-    # lastOnLastScreen.wait_gone(timeout=10) # this is buggy for some reason
-    # put in email
+    return
+
+def registerStage2(device, email, password):
+    """
+    Stage 2: Enter email and password.
+    """
     setNodeTextByClassInstance(device, "android.widget.EditText", 0, email)
-    # put in password
     setNodeTextByClassInstance(device, "android.widget.EditText", 1, password)
-    # put in password again
     setNodeTextByClassInstance(device, "android.widget.EditText", 2, password)
-    # click agree and register
-    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 16)
+    last_node = clickNodeByClassInstance(device, "android.view.View", 16)
+    last_node.wait_gone(timeout=10)
+    return
 
-# 3rd screen
-    lastOnLastScreen.wait_gone(timeout=10)
-    # put name
+def registerStage3(device, name, surname, nickname):
+    """
+    Stage 3: Enter name, surname, and nickname.
+    """
     setNodeTextByClassInstance(device, "android.widget.EditText", 0, name)
-    # put surname
     setNodeTextByClassInstance(device, "android.widget.EditText", 1, surname)
-    # put nickname
     setNodeTextByClassInstance(device, "android.widget.EditText", 2, nickname)
-    # click next
-    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 13)
+    last_node = clickNodeByClassInstance(device, "android.view.View", 13)
+    last_node.wait_gone(timeout=10)
+    return
 
-# 4th screen
-    lastOnLastScreen.wait_gone(timeout=10)
-    # select gender
-    clickNodeByClassInstance(device, "android.widget.ImageView", 1)
-    # click next
-    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 7)
+def registerStage4(device):
+    """
+    Stage 4: Select gender and click next.
+    """
+    clickNodeByClassInstance(device, "android.widget.ImageView", 1)  # select gender
+    last_node = clickNodeByClassInstance(device, "android.view.View", 7)  # click next
+    last_node.wait_gone(timeout=10)
+    return
 
-# 5th screen
-    lastOnLastScreen.wait_gone(timeout=25)
-
-    # click next this one is way different than the rest, due to the fact that the developers of Activy made it a very weird hierarchy node
-    # this is clicked too early
+def registerStage5(device):
+    """
+    Stage 5: Click next.
+    """
+    # this one is way different than the rest, due to the fact that the developers of Activy made it a very weird hierarchy node
     main_view = waitForElement(device, className="android.view.View", instance=0)
     if main_view.exists:
         bounds = main_view.info['bounds']
@@ -52,30 +56,58 @@ def Register(device, email, password, name, surname, nickname):
         device.click(center_x, bottom_y)
     else:
         raise ValueError("Main view not found")
-
-# 6th screen
     main_view.wait_gone(timeout=10)
-    # type 88
+    return
+
+def registerStage6(device):
+    """
+    Stage 6: Enter weight 88 and click next.
+    """
     device.send_keys(text='88')
-    # click next
-    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 7)
+    last_node = clickNodeByClassInstance(device, "android.view.View", 7)
+    last_node.wait_gone(timeout=10)
+    return
 
-# 7th screen
-    lastOnLastScreen.wait_gone(timeout=10)
-    # click next
-    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 7)
+def registerStage7(device):
+    """
+    Stage 7: Click next.
+    """
+    last_node = clickNodeByClassInstance(device, "android.view.View", 7)
+    last_node.wait_gone(timeout=10)
+    return
 
-# 8th screen
-    lastOnLastScreen.wait_gone(timeout=10)
-    # click agree
-    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 11)
+def registerStage8(device):
+    """
+    Stage 8: Click agree.
+    """
+    last_node = clickNodeByClassInstance(device, "android.view.View", 11)
+    last_node.wait_gone(timeout=10)
+    return
 
-# 9th screen
-    lastOnLastScreen.wait_gone(timeout=10)
-    # click next
-    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 11)
+def registerStage9(device):
+    """
+    Stage 9: Click next.
+    """
+    last_node = clickNodeByClassInstance(device, "android.view.View", 11)
+    last_node.wait_gone(timeout=10)
+    return
 
-# 10th screen
-    lastOnLastScreen.wait_gone(timeout=10)
-    # click next
-    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 11)
+def registerStage10(device):
+    """
+    Stage 10: Click next.
+    """
+    last_node = clickNodeByClassInstance(device, "android.view.View", 11)
+    last_node.wait_gone(timeout=10)
+    return
+
+def Register(device, email, password, name, surname, nickname):
+    registerStage1(device)
+    registerStage2(device, email, password)
+    registerStage3(device, name, surname, nickname)
+    registerStage4(device)
+    registerStage5(device)
+    registerStage6(device)
+    registerStage7(device)
+    registerStage8(device)
+    registerStage9(device)
+    registerStage10(device)
