@@ -76,4 +76,6 @@ def Register(device, email, password, name, surname, nickname):
     lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 11)
 
 # 10th screen
-
+    lastOnLastScreen.wait_gone(timeout=10)
+    # click next
+    lastOnLastScreen = clickNodeByClassInstance(device, "android.view.View", 11)
