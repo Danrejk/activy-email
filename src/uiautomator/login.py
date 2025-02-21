@@ -1,7 +1,7 @@
 from src.opencv.getStage import load_templates
 from src.uiautomator.utils.checkStage import tryCheckStage
-from utils.clickNodeByClassInstance import clickNodeByClassInstance
-from utils.setNodeTextByClassInstance import setNodeTextByClassInstance
+from src.uiautomator.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
+from src.uiautomator.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
 
 def loginStage1(device, templates):
     """

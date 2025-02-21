@@ -1,7 +1,7 @@
 from src.opencv.getStage import load_templates, getStage
 from src.uiautomator.utils.checkStage import tryCheckStage
-from utils.clickNodeByClassInstance import clickNodeByClassInstance
-from utils.setNodeTextByClassInstance import setNodeTextByClassInstance
+from src.uiautomator.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
+from src.uiautomator.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
 
 def connectStravaStage1(device, templates):
     """
@@ -109,8 +109,28 @@ def connectStravaStage6(device, templates, password):
     setNodeTextByClassInstance(device, "android.widget.EditText", 0, password)
     clickNodeByClassInstance(device, "android.widget.Button", 3)
 
-    tryCheckStage(device, 6, templates, retries=10) # more retries due to an object from stage 4 still being present
+    tryCheckStage(device, 6, templates, retries=5)
     print("Stage 6 completed")
+
+def connectStravaStage7(device, templates):
+    """
+    Stage 7: Authorise Activy.
+    """
+    clickNodeByClassInstance(device, "android.widget.Button", 0)
+
+    tryCheckStage(device, 7, templates, retries=5)
+    print("Stage 7 completed")
+
+def connectStravaStage8(device, templates):
+    """
+    Stage 8: Go back to main screen.
+    """
+    device.press("back")
+    device.press("back")
+    device.press("back")
+
+    tryCheckStage(device, 8, templates, retries=5)
+    print("Stage 8 completed")
 
 
 def connectStrava(device, email, password):
@@ -120,8 +140,11 @@ def connectStrava(device, email, password):
     connectStravaStage2(device, templates)
     connectStravaStage3(device, templates)
     connectStravaStage4(device, templates)
+    # PROBLEM. The user is still logged onto strava
     connectStravaStage5(device, templates, email)
     connectStravaStage6(device, templates, password)
+    connectStravaStage7(device, templates)
+    connectStravaStage8(device, templates)
 
     print(f"Connected strava for {email}")
 
