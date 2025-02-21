@@ -105,6 +105,7 @@ def connectStravaStage6(device, templates, password):
     """
     Stage 6: Put in password.
     """
+    # to be tested
     setNodeTextByClassInstance(device, "android.widget.EditText", 0, password)
     clickNodeByClassInstance(device, "android.widget.Button", 3)
 
@@ -115,11 +116,11 @@ def connectStravaStage6(device, templates, password):
 def connectStrava(device, email, password):
     templates = load_templates("../opencv/connectStrava")
 
-    # connectStravaStage1(device, templates)
-    # connectStravaStage2(device, templates)
-    # connectStravaStage3(device, templates)
-    # connectStravaStage4(device, templates)
-    # connectStravaStage5(device, templates, email)
+    connectStravaStage1(device, templates)
+    connectStravaStage2(device, templates)
+    connectStravaStage3(device, templates)
+    connectStravaStage4(device, templates)
+    connectStravaStage5(device, templates, email)
     connectStravaStage6(device, templates, password)
 
     print(f"Connected strava for {email}")
