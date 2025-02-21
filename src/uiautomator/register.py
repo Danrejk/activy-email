@@ -101,6 +101,7 @@ def registerStage9(device, templates):
 
 def Register(device, email, password, name, surname, nickname):
     templates = load_templates("../opencv/registration")
+
     registerStage1(device, templates)
     registerStage2(device, templates, email, password)
     registerStage3(device, templates, name, surname, nickname)
@@ -110,4 +111,5 @@ def Register(device, email, password, name, surname, nickname):
     registerStage7(device, templates)
     registerStage8(device, templates)
     registerStage9(device, templates)
+
     print(f"Registered {nickname}")
