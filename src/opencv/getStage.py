@@ -18,7 +18,7 @@ def load_templates(template_dir):
             print(f"Error loading {file}: {e}")
     return templates
 
-def getStage(device, templates, threshold=0.5, debug=False):
+def getStage(device, templates, threshold=0.7, debug=False):
     """
     Takes a screenshot and matches it against the preloaded templates.
     Returns a tuple (detected stage number, confidence score) or None if no match is found.
