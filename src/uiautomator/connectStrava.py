@@ -1,5 +1,6 @@
 from src.opencv.getStage import load_templates, getStage
 from src.uiautomator.utils.checkStage import tryCheckStage
+from src.uiautomator.utils.clearChrome import clearChrome
 from src.uiautomator.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 from src.uiautomator.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
 
@@ -43,11 +44,11 @@ def connectStravaStage4(device, templates):
     clickNodeByClassInstance(device, "android.widget.ImageView", 4)
 
     try:
-        tryCheckStage(device, 4, templates, retries=75)
+        tryCheckStage(device, 400, templates, retries=50)
+        connectStravaStage400(device, templates)
     except:
         try:
-            tryCheckStage(device, 400, templates, retries=5)
-            connectStravaStage400(device, templates)
+            tryCheckStage(device, 4, templates, retries=5)
         except:
             tryCheckStage(device, 401, templates, retries=5)
             connectStravaStage401(device, templates)
@@ -139,8 +140,14 @@ def connectStrava(device, email, password):
     connectStravaStage1(device, templates)
     connectStravaStage2(device, templates)
     connectStravaStage3(device, templates)
-    connectStravaStage4(device, templates)
+
     # PROBLEM. The user is still logged onto strava
+    try:
+        clearChrome()
+    except ValueError as e:
+        raise e
+
+    connectStravaStage4(device, templates)
     connectStravaStage5(device, templates, email)
     connectStravaStage6(device, templates, password)
     connectStravaStage7(device, templates)
