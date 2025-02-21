@@ -1,7 +1,7 @@
-from src.opencv.registration.getRegistrationStage import getRegistrationStage
+from src.opencv.getStage import getStage
 
-def checkStage(device, expected_stage, templates):
-    stage = getRegistrationStage(device, templates)
+def checkStage(device, expected_stage, templates, debug=False):
+    stage = getStage(device, templates, debug)
     if stage != expected_stage:
         raise ValueError(f"Stage check failed: expected stage {expected_stage}, but got stage {stage}")
 
