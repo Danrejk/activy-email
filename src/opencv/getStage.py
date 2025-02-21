@@ -18,7 +18,7 @@ def load_templates(template_dir):
     return templates
 
 
-def getRegistrationStage(device, templates, debug=False):
+def getStage(device, templates, debug=False):
     """
     Takes a screenshot and matches it against the preloaded templates.
     Returns the detected stage number or None if no match is found.

@@ -1,6 +1,5 @@
-import time
-from src.opencv.registration.getRegistrationStage import load_templates
-from src.uiautomator.utils.checkRegistrationStage import tryCheckStage
+from src.opencv.getStage import load_templates
+from src.uiautomator.utils.checkStage import tryCheckStage
 from src.uiautomator.utils.waitForElement import waitForElement
 from utils.clickNodeByClassInstance import clickNodeByClassInstance
 from utils.setNodeTextByClassInstance import setNodeTextByClassInstance
@@ -101,7 +100,7 @@ def registerStage9(device, templates):
 
 
 def Register(device, email, password, name, surname, nickname):
-    templates = load_templates("../opencv/registration/progressBarImages")
+    templates = load_templates("../opencv/registration")
     registerStage1(device, templates)
     registerStage2(device, templates, email, password)
     registerStage3(device, templates, name, surname, nickname)
@@ -111,4 +110,4 @@ def Register(device, email, password, name, surname, nickname):
     registerStage7(device, templates)
     registerStage8(device, templates)
     registerStage9(device, templates)
-    print("Registration process completed")
+    print(f"Registered {nickname}")
