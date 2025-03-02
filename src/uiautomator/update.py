@@ -10,9 +10,11 @@ from src.uiautomator.utils.getCurretlyOpenApp import getCurrentlyOpenApp
 def updateStage1(device, templates):
     """
     Stage 1: Check if an update is needed
+
+    Branching: If an update is needed, 101 is initiated
     """
     try:
-        tryCheckStage(device, 1, templates)
+        tryCheckStage(device, "1o101", templates)
         print("Stage 1 completed")
         updateStage101(device, templates)
     except:

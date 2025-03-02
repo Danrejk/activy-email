@@ -16,13 +16,15 @@ def connectStravaStage1(device, templates):
 def connectStravaStage2(device, templates):
     """
     Stage 2: Click app integrations.
+
+    Failsafe: It stops if it detects 2f001 (Strava already connected)
     """
     clickNodeByClassInstance(device, "android.view.View", 8)
 
     try:
         tryCheckStage(device, 2, templates)
     except ValueError as e:
-        if getStage(device, templates)[0] == 200:
+        if getStage(device, templates)[0] == "2f001":
             print("Strava already connected")
         raise e
 
@@ -44,53 +46,53 @@ def connectStravaStage4(device, templates):
     clickNodeByClassInstance(device, "android.widget.ImageView", 4)
 
     try:
-        tryCheckStage(device, 400, templates, retries=50)
-        connectStravaStage400(device, templates)
+        tryCheckStage(device, "4o401", templates, retries=50)
+        connectStravaStage401(device, templates)
     except:
         try:
             tryCheckStage(device, 4, templates)
         except:
             tryCheckStage(device, 401, templates)
-            connectStravaStage401(device, templates)
+            connectStravaStage402(device, templates)
 
     print("Stage 4 completed")
 
 # 400, 401, 402 are only neccessary if it's the first time
-def connectStravaStage400(device, templates):
+def connectStravaStage401(device, templates):
     """
-    Stage 400: Accept chrome statistics on first launch
+    Stage 401: Accept chrome statistics on first launch
     """
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
     try:
         tryCheckStage(device, 401, templates)
-        connectStravaStage401(device, templates)
+        connectStravaStage402(device, templates)
     except:
         tryCheckStage(device, 4, templates)
 
-    print("Stage 400 completed")
+    print("Stage 401 completed")
 
-def connectStravaStage401(device, templates):
+def connectStravaStage402(device, templates):
     """
-    Stage 401: Decline synchronisation
+    Stage 402: Decline synchronisation
     """
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
     try:
         tryCheckStage(device, 402, templates)
-        connectStravaStage401(device, templates)
+        connectStravaStage403(device, templates)
     except:
         tryCheckStage(device, 4, templates)
-    print("Stage 401 completed")
+    print("Stage 402 completed")
 
-def connectStravaStage402(device, templates):
+def connectStravaStage403(device, templates):
     """
-    Stage 402: Accept cookies
+    Stage 403: Accept cookies
     """
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
     tryCheckStage(device, 4, templates)
-    print("Stage 402 completed")
+    print("Stage 403 completed")
 
 def connectStravaStage5(device, templates, email):
     """
