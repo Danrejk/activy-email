@@ -20,11 +20,11 @@ def loginStage2(device, templates, email, password):
     setNodeTextByClassInstance(device, "android.widget.EditText", 1, password)
     clickNodeByClassInstance(device, "android.view.View", 7)
 
-    tryCheckStage(device, 2, templates, retries=50)
+    tryCheckStage(device, "mainMenu", templates, retries=50)
     print("Stage 2 completed")
 
 def Login(device, email, password):
-    templates = load_templates("../opencv/login")
+    templates = load_templates("../opencv/generalNavigation")
 
     loginStage1(device, templates)
     loginStage2(device, templates, email, password)

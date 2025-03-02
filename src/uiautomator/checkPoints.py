@@ -110,12 +110,12 @@ def pointsStage3(device, templates):
     y = int(height - 10)
     device.click(x, y)
 
-    tryCheckStage(device, 2, templates)
+    tryCheckStage(device, "mainMenu", templates)
 
 
 def checkPoints(device, challangeName):
     templates = load_templates("../opencv/checkPoints")
-    templatesStage3 = load_templates("../opencv/login")  # this uses a template from the login to preserve space and ensure it's not detected prior since this ui element is always present
+    templatesStage3 = load_templates("../opencv/generalNavigation")
 
     pointsStage1(device, templates, challangeName)
     userPoints = pointsStage2(device, templates)
