@@ -8,15 +8,16 @@ def load_templates(template_dir):
     template_path = Path(template_dir)
     for file in template_path.glob("*.png"):
         try:
-            stage_number = int(file.stem)
+            stage_key = file.stem
             img = cv2.imread(str(file), cv2.IMREAD_GRAYSCALE)
             if img is not None:
-                templates[stage_number] = img
+                templates[stage_key] = img
             else:
                 print(f"Failed to load image: {file}")
         except Exception as e:
             print(f"Error loading {file}: {e}")
     return templates
+
 
 def getStage(device, templates, threshold=0.7, debug=False):
     """
