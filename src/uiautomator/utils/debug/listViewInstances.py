@@ -1,6 +1,4 @@
 def ListViewInstances(device):
-    # Dump the full hierarchy for context
-    print(device.dump_hierarchy())
 
     # Get all instances of android.view.View
     views = device(className="android.view.View")
