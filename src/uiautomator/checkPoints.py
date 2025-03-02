@@ -14,7 +14,6 @@ def pointsStage1(device, templates, challangeName):
 
     Branching: if there is no challange selected - it goes to 101
     """
-
     # this has to be done with proportions to click in a specific area where the tab selector is
     # the challange button is an imageView which has a varries ammount of instances
     width = device.info["displayWidth"]
@@ -82,7 +81,6 @@ def pointsStage2(device, templates):
     """
     Stage 2: Check user's points
     """
-
     visiblePoints = []  # this is only the points up to the user's point since there is no point in recording all of them
 
     for i in range(20):
@@ -100,12 +98,28 @@ def pointsStage2(device, templates):
 
     raise TimeoutError("Didn't find user's points within 10s")
 
+def pointsStage3(device, templates):
+    """
+    Stage 3: Go back to main screen
+    """
+    # this has to be done with proportions to click in a specific area where the tab selector is
+    # the challange button is an imageView which has a varries ammount of instances
+    width = device.info["displayWidth"]
+    height = device.info["displayHeight"]
+    x = int(width * 1 / 6)
+    y = int(height - 10)
+    device.click(x, y)
+
+    tryCheckStage(device, 2, templates)
+
 
 def checkPoints(device, challangeName):
     templates = load_templates("../opencv/checkPoints")
+    templatesStage3 = load_templates("../opencv/login")  # this uses a template from the login to preserve space and ensure it's not detected prior since this ui element is always present
 
     pointsStage1(device, templates, challangeName)
     userPoints = pointsStage2(device, templates)
+    pointsStage3(device, templatesStage3)
 
-    print("checked points")
+    print("Checked points")
     return userPoints
