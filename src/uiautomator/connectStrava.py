@@ -10,7 +10,7 @@ def connectStravaStage1(device, templates):
     """
     clickNodeByClassInstance(device, "android.widget.ImageView", 2)
 
-    tryCheckStage(device, 1, templates, retries=5)
+    tryCheckStage(device, 1, templates)
     print("Stage 1 completed")
 
 def connectStravaStage2(device, templates):
@@ -20,7 +20,7 @@ def connectStravaStage2(device, templates):
     clickNodeByClassInstance(device, "android.view.View", 8)
 
     try:
-        tryCheckStage(device, 2, templates, retries=5)
+        tryCheckStage(device, 2, templates)
     except ValueError as e:
         if getStage(device, templates)[0] == 200:
             print("Strava already connected")
@@ -34,7 +34,7 @@ def connectStravaStage3(device, templates):
     """
     clickNodeByClassInstance(device, "android.view.View", 8)
 
-    tryCheckStage(device, 3, templates, retries=5)
+    tryCheckStage(device, 3, templates)
     print("Stage 3 completed")
 
 def connectStravaStage4(device, templates):
@@ -48,9 +48,9 @@ def connectStravaStage4(device, templates):
         connectStravaStage400(device, templates)
     except:
         try:
-            tryCheckStage(device, 4, templates, retries=5)
+            tryCheckStage(device, 4, templates)
         except:
-            tryCheckStage(device, 401, templates, retries=5)
+            tryCheckStage(device, 401, templates)
             connectStravaStage401(device, templates)
 
     print("Stage 4 completed")
@@ -63,10 +63,10 @@ def connectStravaStage400(device, templates):
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
     try:
-        tryCheckStage(device, 401, templates, retries=5)
+        tryCheckStage(device, 401, templates)
         connectStravaStage401(device, templates)
     except:
-        tryCheckStage(device, 4, templates, retries=5)
+        tryCheckStage(device, 4, templates)
 
     print("Stage 400 completed")
 
@@ -77,10 +77,10 @@ def connectStravaStage401(device, templates):
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
     try:
-        tryCheckStage(device, 402, templates, retries=5)
+        tryCheckStage(device, 402, templates)
         connectStravaStage401(device, templates)
     except:
-        tryCheckStage(device, 4, templates, retries=5)
+        tryCheckStage(device, 4, templates)
     print("Stage 401 completed")
 
 def connectStravaStage402(device, templates):
@@ -89,7 +89,7 @@ def connectStravaStage402(device, templates):
     """
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
-    tryCheckStage(device, 4, templates, retries=5)
+    tryCheckStage(device, 4, templates)
     print("Stage 402 completed")
 
 def connectStravaStage5(device, templates, email):
@@ -110,7 +110,7 @@ def connectStravaStage6(device, templates, password):
     setNodeTextByClassInstance(device, "android.widget.EditText", 0, password)
     clickNodeByClassInstance(device, "android.widget.Button", 3)
 
-    tryCheckStage(device, 6, templates, retries=5)
+    tryCheckStage(device, 6, templates)
     print("Stage 6 completed")
 
 def connectStravaStage7(device, templates):
@@ -119,7 +119,7 @@ def connectStravaStage7(device, templates):
     """
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
-    tryCheckStage(device, 7, templates, retries=5)
+    tryCheckStage(device, 7, templates)
     print("Stage 7 completed")
 
 def connectStravaStage8(device, templates):
@@ -130,7 +130,7 @@ def connectStravaStage8(device, templates):
     device.press("back")
     device.press("back")
 
-    tryCheckStage(device, 8, templates, retries=5)
+    tryCheckStage(device, 8, templates)
     print("Stage 8 completed")
 
 

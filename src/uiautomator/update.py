@@ -12,7 +12,7 @@ def updateStage1(device, templates):
     Stage 1: Check if an update is needed
     """
     try:
-        tryCheckStage(device, 1, templates, retries=10)
+        tryCheckStage(device, 1, templates)
         print("Stage 1 completed")
         updateStage101(device, templates)
     except:
@@ -26,7 +26,7 @@ def updateStage101(device, templates):
     """
     clickNodeByClassInstance(device, "android.view.View", 6)
 
-    tryCheckStage(device, 101, templates, retries=10)
+    tryCheckStage(device, 101, templates)
     print("Stage 101 completed")
     updateStage102(device, templates)
 
