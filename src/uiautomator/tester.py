@@ -17,10 +17,10 @@ d = u2.connect()
 # Login(d, "email@e.com", "password1")
 # Register(d, "email@e6.com", "Password1", "Andrzej", "Pliszka", "AndrzejPliszka") # make sure the password complies with their password rules
 # connectStrava(d, "email@e1.com", "Password1")
-# checkPoints(d, "Kręć kilometry dla Gdańska 2024")
+print(checkPoints(d, "Kręć kilometry dla Gdańska 2024"))
 # UpdateApp(d)
 
-print(getStage(d, templates=load_templates("../opencv/connectStrava"), debug=True))
+# print(getStage(d, templates=load_templates("../opencv/connectStrava"), debug=True))
 # checkStage(d, 2, templates=load_templates("../opencv/connectStrava"), debug=True)
 # tryCheckStage(d, 2, templates=load_templates("../opencv/registration"), debug=True)
 
