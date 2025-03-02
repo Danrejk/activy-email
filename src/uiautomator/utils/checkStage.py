@@ -12,7 +12,8 @@ def checkStage(device, expected_stage, templates, debug=False):
         print(f"Detected stage: {detected_stage} with certainty: {best_score:.2f}")
 
     if not isinstance(expected_stage, (list, tuple)):
-        expected_stage = [expected_stage]
+        expected_stage = [str(expected_stage)]
+    expected_stage = [str(item) for item in expected_stage]
 
     if detected_stage not in expected_stage:
         raise ValueError(f"Stage check failed: expected one of {expected_stage}, but got stage {detected_stage}")
