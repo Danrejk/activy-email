@@ -33,6 +33,20 @@ def getAccountById(sqlHandler, accountId):
         print(f"Error fetching account by id: {e}")
         return None
 
+def getAllAccounts(sqlHandler):
+    try:
+        cursor = sqlHandler.connection.cursor()
+        cursor.execute("SELECT * FROM accounts")
+        accounts = cursor.fetchall()
+        if accounts:
+            print(f"Fetched {len(accounts)} account(s).")
+        else:
+            print("No accounts found.")
+        return accounts
+    except Error as e:
+        print(f"Error fetching accounts: {e}")
+        return []
+
 def deleteAccount(sqlHandler, accountId):
     try:
         cursor = sqlHandler.connection.cursor()

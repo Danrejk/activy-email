@@ -23,7 +23,8 @@ class SQLHandler:
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     latitude REAL NOT NULL,
-                    longitude REAL NOT NULL
+                    longitude REAL NOT NULL,
+                    workplace BOOLEAN NOT NULL DEFAULT FALSE,
                 )
             """)
 
