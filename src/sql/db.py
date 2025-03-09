@@ -58,7 +58,7 @@ class SQLHandler:
             """)
 
             self.connection.commit()
-            print("Tables 'accounts' and 'places' created or already exist.")
+            print("Tables 'accounts', 'places' & 'challanges' created or already exist.")
         except Error as e:
             print(f"Error creating tables: {e}")
 
@@ -68,4 +68,7 @@ class SQLHandler:
             print(f"Connection to {self.db_name} closed.")
 
 # example usage
-createTables = SQLHandler("Activy.db")
+db_name = 'Activy.db'
+sql_handler = SQLHandler(db_name)
+sql_handler.createTables()
+sql_handler.close_connection()
