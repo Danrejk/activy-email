@@ -1,10 +1,6 @@
 from sqlite3 import Error
 
 def createPlace(connection, name, latitude, longitude, workplace=False):
-    """
-    Create a new place with the given parameters.
-    Returns the id of the newly created place.
-    """
     try:
         cursor = connection.cursor()
         cursor.execute("""
@@ -20,9 +16,6 @@ def createPlace(connection, name, latitude, longitude, workplace=False):
         return None
 
 def getPlaceById(connection, placeId):
-    """
-    Fetch and return the place corresponding to the given placeId.
-    """
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM places WHERE id = ?", (placeId,))
@@ -37,10 +30,6 @@ def getPlaceById(connection, placeId):
         return None
 
 def isWorkplace(connection, placeId):
-    """
-    Return True if the place with the given id is marked as a workplace,
-    otherwise return False.
-    """
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT workplace FROM places WHERE id = ?", (placeId,))
@@ -56,9 +45,6 @@ def isWorkplace(connection, placeId):
         return False
 
 def getAllWorkplaces(connection):
-    """
-    Fetch and return all places where workplace is True.
-    """
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM places WHERE workplace = 1")
@@ -70,9 +56,6 @@ def getAllWorkplaces(connection):
         return []
 
 def getAllNonWorkplaces(connection):
-    """
-    Fetch and return all places where workplace is False.
-    """
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM places WHERE workplace = 0")
@@ -84,10 +67,6 @@ def getAllNonWorkplaces(connection):
         return []
 
 def updatePlace(connection, placeId, newName=None, newLatitude=None, newLongitude=None, newWorkplace=None):
-    """
-    Update place details for the place with the given placeId.
-    Only provided new values will be updated.
-    """
     try:
         cursor = connection.cursor()
         updates = []
@@ -119,9 +98,6 @@ def updatePlace(connection, placeId, newName=None, newLatitude=None, newLongitud
         print(f"Error updating place: {e}")
 
 def deletePlace(connection, placeId):
-    """
-    Remove the place with the given placeId from the database.
-    """
     try:
         cursor = connection.cursor()
         cursor.execute("DELETE FROM places WHERE id = ?", (placeId,))
