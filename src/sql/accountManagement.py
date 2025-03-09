@@ -1,17 +1,16 @@
-import sqlite3
 from sqlite3 import Error
 
-def createAccount(sqlHandler, name, surname, username, email, password,
+def createAccount(connection, name, surname, username, email, password,
                   challengeId, homeId, workplaceId,
                   avatar=None, points=0, averageSpeed=20):
     try:
-        cursor = sqlHandler.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("""
             INSERT INTO accounts 
             (name, surname, username, email, password, avatar, challengeId, points, homeId, workplaceId, averageSpeed)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (name, surname, username, email, password, avatar, homeId, workplaceId, averageSpeed, points, challengeId))
-        sqlHandler.connection.commit()
+        connection.commit()
         accountId = cursor.lastrowid
         print(f"Account for '{username}' created successfully with id {accountId}.")
         return accountId
@@ -19,9 +18,9 @@ def createAccount(sqlHandler, name, surname, username, email, password,
         print(f"Error creating account: {e}")
         return None
 
-def getAccountById(sqlHandler, accountId):
+def getAccountById(connection, accountId):
     try:
-        cursor = sqlHandler.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("SELECT * FROM accounts WHERE id = ?", (accountId,))
         account = cursor.fetchone()
         if account:
@@ -33,9 +32,9 @@ def getAccountById(sqlHandler, accountId):
         print(f"Error fetching account by id: {e}")
         return None
 
-def getAllAccounts(sqlHandler):
+def getAllAccounts(connection):
     try:
-        cursor = sqlHandler.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("SELECT * FROM accounts")
         accounts = cursor.fetchall()
         if accounts:
@@ -47,24 +46,20 @@ def getAllAccounts(sqlHandler):
         print(f"Error fetching accounts: {e}")
         return []
 
-def deleteAccount(sqlHandler, accountId):
+def deleteAccount(connection, accountId):
     try:
-        cursor = sqlHandler.connection.cursor()
+        cursor = connection.cursor()
         cursor.execute("DELETE FROM accounts WHERE id = ?", (accountId,))
-        sqlHandler.connection.commit()
+        connection.commit()
         print(f"Account with id {accountId} deleted successfully.")
     except Error as e:
         print(f"Error deleting account: {e}")
 
-def updateAccount(sqlHandler, accountId, newName=None, newSurname=None, newUsername=None,
+def updateAccount(connection, accountId, newName=None, newSurname=None, newUsername=None,
                   newEmail=None, newPassword=None, newAvatar=None, newHomeId=None,
                   newWorkplaceId=None, newAverageSpeed=None, newPoints=None, newChallengeName=None):
-    """
-    Update account details for the account with the given accountId.
-    Only columns for which new values are provided are updated.
-    """
     try:
-        cursor = sqlHandler.connection.cursor()
+        cursor = connection.cursor()
         updates = []
         params = []
 
@@ -102,7 +97,6 @@ def updateAccount(sqlHandler, accountId, newName=None, newSurname=None, newUsern
             updates.append("averageSpeed = ?")
             params.append(newAverageSpeed)
 
-
         if not updates:
             print("No update parameters provided; nothing to change.")
             return
@@ -110,7 +104,7 @@ def updateAccount(sqlHandler, accountId, newName=None, newSurname=None, newUsern
         query = f"UPDATE accounts SET {', '.join(updates)} WHERE id = ?"
         params.append(accountId)
         cursor.execute(query, tuple(params))
-        sqlHandler.connection.commit()
+        connection.commit()
         print(f"Account with id {accountId} updated successfully.")
     except Error as e:
         print(f"Error updating account: {e}")
