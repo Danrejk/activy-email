@@ -1,5 +1,8 @@
 from sqlite3 import Error
 
+from src.sql.utils.rowsToDictionary import rowsToDictionary
+
+
 def createChallenge(connection, name, startDate=None, endDate=None):
     try:
         cursor = connection.cursor()
@@ -19,12 +22,7 @@ def getChallengeById(connection, challengeId):
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM challenges WHERE id = ?", (challengeId,))
-        challenge = cursor.fetchone()
-        if challenge:
-            print(f"Challenge found: {challenge}")
-        else:
-            print(f"No challenge found with id: {challengeId}")
-        return challenge
+        return rowsToDictionary(cursor, cursor.fetchone())
     except Error as e:
         print(f"Error fetching challenge by id: {e}")
         return None
@@ -33,9 +31,7 @@ def getAllChallenges(connection):
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM challenges")
-        challenges = cursor.fetchall()
-        print(f"Fetched {len(challenges)} challenge(s).")
-        return challenges
+        return rowsToDictionary(cursor, cursor.fetchall())
     except Error as e:
         print(f"Error fetching challenges: {e}")
         return []

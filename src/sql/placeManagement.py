@@ -1,5 +1,8 @@
 from sqlite3 import Error
 
+from src.sql.utils.rowsToDictionary import rowsToDictionary
+
+
 def createPlace(connection, name, latitude, longitude, workplace=False):
     try:
         cursor = connection.cursor()
@@ -13,20 +16,6 @@ def createPlace(connection, name, latitude, longitude, workplace=False):
         return placeId
     except Error as e:
         print(f"Error creating place: {e}")
-        return None
-
-def getPlaceById(connection, placeId):
-    try:
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM places WHERE id = ?", (placeId,))
-        place = cursor.fetchone()
-        if place:
-            print(f"Place found: {place}")
-        else:
-            print(f"No place found with id: {placeId}")
-        return place
-    except Error as e:
-        print(f"Error fetching place by id: {e}")
         return None
 
 def isWorkplace(connection, placeId):
@@ -44,13 +33,20 @@ def isWorkplace(connection, placeId):
         print(f"Error checking if place is a workplace: {e}")
         return False
 
+def getPlaceById(connection, placeId):
+    try:
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM places WHERE id = ?", (placeId,))
+        return rowsToDictionary(cursor, cursor.fetchone())
+    except Error as e:
+        print(f"Error fetching place by id: {e}")
+        return None
+
 def getAllWorkplaces(connection):
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM places WHERE workplace = 1")
-        workplaces = cursor.fetchall()
-        print(f"Fetched {len(workplaces)} workplace(s).")
-        return workplaces
+        return rowsToDictionary(cursor, cursor.fetchall())
     except Error as e:
         print(f"Error fetching workplaces: {e}")
         return []
@@ -59,12 +55,11 @@ def getAllNonWorkplaces(connection):
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM places WHERE workplace = 0")
-        nonWorkplaces = cursor.fetchall()
-        print(f"Fetched {len(nonWorkplaces)} non-workplace place(s).")
-        return nonWorkplaces
+        return rowsToDictionary(cursor, cursor.fetchall())
     except Error as e:
         print(f"Error fetching non-workplaces: {e}")
         return []
+
 
 def updatePlace(connection, placeId, newName=None, newLatitude=None, newLongitude=None, newWorkplace=None):
     try:

@@ -1,5 +1,8 @@
 from sqlite3 import Error
 
+from src.sql.utils.rowsToDictionary import rowsToDictionary
+
+
 def createAccount(connection, name, surname, username, email, password,
                   challengeId, homeId, workplaceId,
                   avatar=None, points=0, averageSpeed=20):
@@ -22,12 +25,7 @@ def getAccountById(connection, accountId):
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM accounts WHERE id = ?", (accountId,))
-        account = cursor.fetchone()
-        if account:
-            print(f"Account found: {account}")
-        else:
-            print(f"No account found with id: {accountId}")
-        return account
+        return rowsToDictionary(cursor, cursor.fetchone())
     except Error as e:
         print(f"Error fetching account by id: {e}")
         return None
@@ -36,12 +34,7 @@ def getAllAccounts(connection):
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM accounts")
-        accounts = cursor.fetchall()
-        if accounts:
-            print(f"Fetched {len(accounts)} account(s).")
-        else:
-            print("No accounts found.")
-        return accounts
+        return rowsToDictionary(cursor, cursor.fetchall())
     except Error as e:
         print(f"Error fetching accounts: {e}")
         return []
