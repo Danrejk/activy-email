@@ -35,7 +35,7 @@ class dbHandler:
                     name TEXT NOT NULL,
                     latitude REAL NOT NULL,
                     longitude REAL NOT NULL,
-                    workplace BOOLEAN NOT NULL DEFAULT FALSE,
+                    workplace BOOLEAN NOT NULL DEFAULT FALSE
                 )
             """)
 
@@ -138,9 +138,3 @@ class dbHandler:
 
     def deleteChallenge(self, challengeId):
         return deleteChallenge(self.connection, challengeId)
-
-# example usage
-dbName = 'Activy.db'
-db = dbHandler(dbName)
-db.createTables()
-db.closeConnection()

@@ -9,7 +9,7 @@ def createAccount(connection, name, surname, username, email, password,
             INSERT INTO accounts 
             (name, surname, username, email, password, avatar, challengeId, points, homeId, workplaceId, averageSpeed)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (name, surname, username, email, password, avatar, homeId, workplaceId, averageSpeed, points, challengeId))
+        """, (name, surname, username, email, password, avatar, challengeId, points, homeId, workplaceId, averageSpeed))
         connection.commit()
         accountId = cursor.lastrowid
         print(f"Account for '{username}' created successfully with id {accountId}.")
