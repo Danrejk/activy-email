@@ -63,8 +63,8 @@ class dbHandler:
                     homeId INTEGER NOT NULL,
                     workplaceId INTEGER NOT NULL,
                     averageSpeed REAL NOT NULL DEFAULT 20,
-                    FOREIGN KEY (challengeId) REFERENCES challenges (id)
-                    FOREIGN KEY (homeId) REFERENCES places (id)
+                    FOREIGN KEY (challengeId) REFERENCES challenges (id),
+                    FOREIGN KEY (homeId) REFERENCES places (id),
                     FOREIGN KEY (workplaceId) REFERENCES places (id)
                 )
             """)
