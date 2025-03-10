@@ -70,7 +70,7 @@ class dbHandler:
             """)
 
             self.connection.commit()
-            print("Tables 'accounts', 'places' & 'challanges' created or already exist.")
+            print("Tables 'accounts', 'places' & 'challenges' created or already exist.")
         except Error as e:
             print(f"Error creating tables: {e}")
 
