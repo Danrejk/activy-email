@@ -1,5 +1,7 @@
 .idea
+venv
 *.key
 *.sqlite
 *.db
 node_modules/
+*.gpx
