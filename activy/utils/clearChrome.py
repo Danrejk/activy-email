@@ -1,6 +1,5 @@
 import subprocess
 
-
 # WARNING!
 # THIS WILL HAVE ISSUES WORKING IF ADB ISN'T ADDED TO THE SYSTEM PATH
 def clearChrome():

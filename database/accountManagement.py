@@ -2,7 +2,6 @@ from sqlite3 import Error
 
 from database.utils.rowsToDictionary import rowsToDictionary
 
-
 def createAccount(connection, name, surname, username, email, password,
                   challengeId, homeId, workplaceId,
                   avatar=None, points=0, averageSpeed=20):

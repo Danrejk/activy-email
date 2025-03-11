@@ -2,7 +2,6 @@ from activy.utils.getStage import load_templates
 from activy.utils.checkStage import tryCheckStage
 from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 
-
 def logoutStage1(device, templates):
     """
     Stage 1: Click the settings

@@ -3,7 +3,6 @@ import numpy as np
 import uiautomator2 as u2
 from xml.etree import ElementTree as ET
 
-
 def drawNodeBoundaries(device):
     # Capture the current UI hierarchy from the device
     hierarchy_xml = device.dump_hierarchy()

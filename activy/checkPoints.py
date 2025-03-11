@@ -6,7 +6,6 @@ from activy.utils.checkStage import checkStage
 from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 import re
 
-
 def pointsStage1(device, templates, challangeName):
     """
     Stage 1: Click the challanges button.

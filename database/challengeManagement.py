@@ -1,7 +1,5 @@
 from sqlite3 import Error
-
 from database.utils.rowsToDictionary import rowsToDictionary
-
 
 def createChallenge(connection, name, startDate=None, endDate=None):
     try:

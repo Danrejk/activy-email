@@ -5,7 +5,6 @@ from activy.utils.checkStage import tryCheckStage
 from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 from activy.utils.getCurretlyOpenApp import getCurrentlyOpenApp
 
-
 def updateStage1(device, templates):
     """
     Stage 1: Check if an update is needed
