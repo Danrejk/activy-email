@@ -1,33 +1,18 @@
-import tkinter
+import tkinter as tk
 from tkinter import ttk
-
-import pywinstyles
 import sv_ttk
-import sys
 
-def apply_theme_to_titlebar(root):
-    version = sys.getwindowsversion()
+# Funkcja do ustawienia motywu (działa na Windows i Linux)
+def apply_theme():
+    sv_ttk.set_theme("dark")  # Możesz zmienić na "light", jeśli chcesz
 
-    if version.major == 10 and version.build >= 22000:
-        # Set the title bar color to the background color on Windows 11 for better appearance
-        pywinstyles.change_header_color(root, "#1c1c1c" if sv_ttk.get_theme() == "dark" else "#fafafa")
-    elif version.major == 10:
-        pywinstyles.apply_style(root, "dark" if sv_ttk.get_theme() == "dark" else "normal")
+# UI
+window = tk.Tk()
 
-        # A hacky way to update the title bar's color on Windows 10 (it doesn't update instantly like on Windows 11)
-        root.wm_attributes("-alpha", 0.99)
-        root.wm_attributes("-alpha", 1)
-
-
-# ui itself
-window = tkinter.Tk()
-
-button = ttk.Button(window, text="Click me!")
+button = ttk.Button(window, text="Kliknij mnie!")
 button.pack()
 
-# apply theme
-sv_ttk.set_theme("dark")
-apply_theme_to_titlebar(window)
+# Zastosowanie motywu
+apply_theme()
 
 window.mainloop()
-
