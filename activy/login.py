@@ -1,7 +1,7 @@
-from src.opencv.getStage import load_templates
-from src.uiautomator.utils.checkStage import tryCheckStage
-from src.uiautomator.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
-from src.uiautomator.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
+from activy.utils.getStage import load_templates
+from activy.utils.checkStage import tryCheckStage
+from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
+from activy.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
 
 def loginStage1(device, templates):
     """
@@ -24,7 +24,7 @@ def loginStage2(device, templates, email, password):
     print("Stage 2 completed")
 
 def Login(device, email, password):
-    templates = load_templates("../opencv/generalNavigation")
+    templates = load_templates("opencv/generalNavigation")
 
     loginStage1(device, templates)
     loginStage2(device, templates, email, password)

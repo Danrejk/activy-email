@@ -1,10 +1,9 @@
 from time import sleep
 
-from src.opencv.getStage import load_templates
-from src.uiautomator.utils.checkStage import tryCheckStage
-from src.uiautomator.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
-from src.uiautomator.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
-from src.uiautomator.utils.getCurretlyOpenApp import getCurrentlyOpenApp
+from activy.utils.getStage import load_templates
+from activy.utils.checkStage import tryCheckStage
+from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
+from activy.utils.getCurretlyOpenApp import getCurrentlyOpenApp
 
 
 def updateStage1(device, templates):
@@ -74,7 +73,7 @@ def updateStage103(device, templates):
 
 
 def UpdateApp(device):
-    templates = load_templates("../opencv/appUpdate")
+    templates = load_templates("opencv/appUpdate")
 
     updateStage1(device, templates)
 

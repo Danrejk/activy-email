@@ -1,10 +1,9 @@
 import time
 
-from src.opencv.getStage import load_templates
-from src.uiautomator.utils.checkStage import tryCheckStage
-from src.uiautomator.utils.checkStage import checkStage
-from src.uiautomator.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
-from src.uiautomator.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
+from activy.utils.getStage import load_templates
+from activy.utils.checkStage import tryCheckStage
+from activy.utils.checkStage import checkStage
+from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 import re
 
 
@@ -114,8 +113,8 @@ def pointsStage3(device, templates):
 
 
 def checkPoints(device, challangeName):
-    templates = load_templates("../opencv/checkPoints")
-    templatesStage3 = load_templates("../opencv/generalNavigation")
+    templates = load_templates("opencv/checkPoints")
+    templatesStage3 = load_templates("opencv/generalNavigation")
 
     pointsStage1(device, templates, challangeName)
     userPoints = pointsStage2(device, templates)

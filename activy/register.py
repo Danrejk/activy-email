@@ -1,8 +1,8 @@
-from src.opencv.getStage import load_templates
-from src.uiautomator.utils.checkStage import tryCheckStage
-from src.uiautomator.utils.controlNodes.waitForElement import waitForElement
-from src.uiautomator.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
-from src.uiautomator.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
+from activy.utils.getStage import load_templates
+from activy.utils.checkStage import tryCheckStage
+from activy.utils.controlNodes.waitForElement import waitForElement
+from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
+from activy.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
 
 def registerStage1(device, templates):
     """
@@ -100,7 +100,7 @@ def registerStage9(device, templates):
 
 
 def Register(device, email, password, name, surname, nickname):
-    templates = load_templates("../opencv/registration")
+    templates = load_templates("opencv/register")
 
     registerStage1(device, templates)
     registerStage2(device, templates, email, password)

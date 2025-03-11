@@ -1,8 +1,8 @@
-from src.opencv.getStage import load_templates, getStage
-from src.uiautomator.utils.checkStage import tryCheckStage
-from src.uiautomator.utils.clearChrome import clearChrome
-from src.uiautomator.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
-from src.uiautomator.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
+from activy.utils.getStage import load_templates, getStage
+from activy.utils.checkStage import tryCheckStage
+from activy.utils.clearChrome import clearChrome
+from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
+from activy.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
 
 def connectStravaStage1(device, templates):
     """
@@ -137,7 +137,7 @@ def connectStravaStage8(device, templates):
 
 
 def connectStrava(device, email, password):
-    templates = load_templates("../opencv/connectStrava")
+    templates = load_templates("opencv/connectStrava")
 
     connectStravaStage1(device, templates)
     connectStravaStage2(device, templates)

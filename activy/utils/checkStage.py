@@ -1,4 +1,4 @@
-from src.opencv.getStage import getStage
+from activy.utils.getStage import getStage
 
 # the expected_stage can also be a table of stages
 def checkStage(device, expected_stage, templates, debug=False):

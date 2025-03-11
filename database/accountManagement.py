@@ -1,6 +1,6 @@
 from sqlite3 import Error
 
-from src.sql.utils.rowsToDictionary import rowsToDictionary
+from database.utils.rowsToDictionary import rowsToDictionary
 
 
 def createAccount(connection, name, surname, username, email, password,

@@ -1,4 +1,4 @@
-from src.uiautomator.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
+from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 
 def setNodeTextByClassInstance(device, className, instance, text):
     node = clickNodeByClassInstance(device, className, instance)
