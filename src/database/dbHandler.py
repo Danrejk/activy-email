@@ -1,23 +1,23 @@
 import sqlite3
 from sqlite3 import Error
 
-from database.accountManagement.createAccount import createAccount
-from database.accountManagement.deleteAccount import deleteAccount
-from database.accountManagement.getAccountById import getAccountById
-from database.accountManagement.getAllAccounts import getAllAccounts
-from database.accountManagement.updateAccount import updateAccount
-from database.challengeManagement.createChallenge import createChallenge
-from database.challengeManagement.deleteChallenge import deleteChallenge
-from database.challengeManagement.getAllChallenges import getAllChallenges
-from database.challengeManagement.getChallengeById import getChallengeById
-from database.challengeManagement.updateAccount import updateChallenge
-from database.placeManagement.createPlace import createPlace
-from database.placeManagement.deletePlace import deletePlace
-from database.placeManagement.getAllNonWorkplaces import getAllNonWorkplaces
-from database.placeManagement.getAllWorkplace import getAllWorkplaces
-from database.placeManagement.getPlaceById import getPlaceById
-from database.placeManagement.isWorkplace import isWorkplace
-from database.placeManagement.placeManagement import updatePlace
+from src.database.accountManagement.createAccount import createAccount
+from src.database.accountManagement.deleteAccount import deleteAccount
+from src.database.accountManagement.getAccountById import getAccountById
+from src.database.accountManagement.getAllAccounts import getAllAccounts
+from src.database.accountManagement.updateAccount import updateAccount
+from src.database.challengeManagement.createChallenge import createChallenge
+from src.database.challengeManagement.deleteChallenge import deleteChallenge
+from src.database.challengeManagement.getAllChallenges import getAllChallenges
+from src.database.challengeManagement.getChallengeById import getChallengeById
+from src.database.challengeManagement.updateAccount import updateChallenge
+from src.database.placeManagement.createPlace import createPlace
+from src.database.placeManagement.deletePlace import deletePlace
+from src.database.placeManagement.getAllNonWorkplaces import getAllNonWorkplaces
+from src.database.placeManagement.getAllWorkplace import getAllWorkplaces
+from src.database.placeManagement.getPlaceById import getPlaceById
+from src.database.placeManagement.isWorkplace import isWorkplace
+from src.database.placeManagement.placeManagement import updatePlace
 
 
 class dbHandler:

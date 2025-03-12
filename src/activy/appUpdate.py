@@ -1,9 +1,9 @@
 from time import sleep
 
-from activy.utils.getStage import load_templates
-from activy.utils.checkStage import tryCheckStage
-from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
-from activy.utils.getCurretlyOpenApp import getCurrentlyOpenApp
+from src.activy.utils.getStage import load_templates
+from src.activy.utils.checkStage import tryCheckStage
+from src.activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
+from src.activy.utils.getCurretlyOpenApp import getCurrentlyOpenApp
 
 def updateStage1(device, templates):
     """

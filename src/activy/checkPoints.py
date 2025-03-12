@@ -1,9 +1,9 @@
 import time
 
-from activy.utils.getStage import load_templates
-from activy.utils.checkStage import tryCheckStage
-from activy.utils.checkStage import checkStage
-from activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
+from src.activy.utils.getStage import load_templates
+from src.activy.utils.checkStage import tryCheckStage
+from src.activy.utils.checkStage import checkStage
+from src.activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 import re
 
 def pointsStage1(device, templates, challangeName):

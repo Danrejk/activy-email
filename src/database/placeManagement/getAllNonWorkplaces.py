@@ -1,5 +1,5 @@
 from sqlite3 import Error
-from database.utils.rowsToDictionary import rowsToDictionary
+from src.database.utils.rowsToDictionary import rowsToDictionary
 
 def getAllNonWorkplaces(connection):
     try:

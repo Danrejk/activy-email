@@ -3,7 +3,7 @@ import gpxpy.gpx
 import numpy as np
 import random
 
-from gpx.calculateDistance import calculateDistance
+from src.gpx.calculateDistance import calculateDistance
 
 def applyUrbanDrift(lat, lon, drift_type, urbanFactor=0.00005):
     # Simulate drift in a random direction within a small radius
