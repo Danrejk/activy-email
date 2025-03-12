@@ -61,7 +61,7 @@ def removeRandomPoints(points):
 
 
 def fixGpxFile(inputFile, outputFile, distanceBetweenPoints=10, gpsError=0.00001, urbanFactor=0.00005,
-               baseSegmentLength=1000, maxVariation=200, preserveLastPoint=True):
+               baseSegmentLength=1000, maxVariation=200, preserveLastPoint=False):
     with open(inputFile, 'r') as gpxFile:
         gpx = gpxpy.parse(gpxFile)
 
@@ -133,4 +133,4 @@ def fixGpxFile(inputFile, outputFile, distanceBetweenPoints=10, gpsError=0.00001
 
 # Example usage
 if __name__ == "__main__":
-    fixGpxFile('input.gpx', 'output.gpx', preserveLastPoint=False)
+    fixGpxFile('input.gpx', 'output.gpx')
