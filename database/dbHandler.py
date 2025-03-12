@@ -1,8 +1,24 @@
 import sqlite3
 from sqlite3 import Error
-from placeManagement import createPlace, getPlaceById, isWorkplace, getAllWorkplaces, getAllNonWorkplaces, updatePlace, deletePlace
-from challengeManagement import createChallenge, getChallengeById, getAllChallenges, updateChallenge, deleteChallenge
-from accountManagement import createAccount, getAccountById, getAllAccounts, updateAccount, deleteAccount
+
+from database.accountManagement.createAccount import createAccount
+from database.accountManagement.deleteAccount import deleteAccount
+from database.accountManagement.getAccountById import getAccountById
+from database.accountManagement.getAllAccounts import getAllAccounts
+from database.accountManagement.updateAccount import updateAccount
+from database.challengeManagement.createChallenge import createChallenge
+from database.challengeManagement.deleteChallenge import deleteChallenge
+from database.challengeManagement.getAllChallenges import getAllChallenges
+from database.challengeManagement.getChallengeById import getChallengeById
+from database.challengeManagement.updateAccount import updateChallenge
+from database.placeManagement.createPlace import createPlace
+from database.placeManagement.deletePlace import deletePlace
+from database.placeManagement.getAllNonWorkplaces import getAllNonWorkplaces
+from database.placeManagement.getAllWorkplace import getAllWorkplaces
+from database.placeManagement.getPlaceById import getPlaceById
+from database.placeManagement.isWorkplace import isWorkplace
+from database.placeManagement.placeManagement import updatePlace
+
 
 class dbHandler:
     '''

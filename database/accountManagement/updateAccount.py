@@ -1,52 +1,5 @@
 from sqlite3 import Error
 
-from database.utils.rowsToDictionary import rowsToDictionary
-
-def createAccount(connection, name, surname, username, email, password,
-                  challengeId, homeId, workplaceId,
-                  avatar=None, points=0, averageSpeed=20):
-    try:
-        cursor = connection.cursor()
-        cursor.execute("""
-            INSERT INTO accounts 
-            (name, surname, username, email, password, avatar, challengeId, points, homeId, workplaceId, averageSpeed)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (name, surname, username, email, password, avatar, challengeId, points, homeId, workplaceId, averageSpeed))
-        connection.commit()
-        accountId = cursor.lastrowid
-        print(f"Account for '{username}' created successfully with id {accountId}.")
-        return accountId
-    except Error as e:
-        print(f"Error creating account: {e}")
-        return None
-
-def getAccountById(connection, accountId):
-    try:
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM accounts WHERE id = ?", (accountId,))
-        return rowsToDictionary(cursor, cursor.fetchone())
-    except Error as e:
-        print(f"Error fetching account by id: {e}")
-        return None
-
-def getAllAccounts(connection):
-    try:
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM accounts")
-        return rowsToDictionary(cursor, cursor.fetchall())
-    except Error as e:
-        print(f"Error fetching accounts: {e}")
-        return []
-
-def deleteAccount(connection, accountId):
-    try:
-        cursor = connection.cursor()
-        cursor.execute("DELETE FROM accounts WHERE id = ?", (accountId,))
-        connection.commit()
-        print(f"Account with id {accountId} deleted successfully.")
-    except Error as e:
-        print(f"Error deleting account: {e}")
-
 def updateAccount(connection, accountId, newName=None, newSurname=None, newUsername=None,
                   newEmail=None, newPassword=None, newAvatar=None, newHomeId=None,
                   newWorkplaceId=None, newAverageSpeed=None, newPoints=None, newChallengeName=None):
