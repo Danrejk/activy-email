@@ -2,7 +2,7 @@ import os
 from src.gpx.generator.utils.generate_route import generate_route
 from src.gpx.generator.utils.generate_gpx import generate_gpx
 
-key_file_path = '../ORS_API.key'
+key_file_path = 'ORS_API.key'
 if not os.path.exists(key_file_path):
     raise FileNotFoundError(f"API key file not found: {key_file_path}")
 
