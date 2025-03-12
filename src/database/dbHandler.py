@@ -17,7 +17,7 @@ from src.database.placeManagement.getAllNonWorkplaces import getAllNonWorkplaces
 from src.database.placeManagement.getAllWorkplace import getAllWorkplaces
 from src.database.placeManagement.getPlaceById import getPlaceById
 from src.database.placeManagement.isWorkplace import isWorkplace
-from src.database.placeManagement.placeManagement import updatePlace
+from src.database.placeManagement.updatePlace import updatePlace
 
 
 class dbHandler:
