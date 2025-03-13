@@ -21,7 +21,7 @@ def checkStage(device, expected_stage, templates, debug=False):
     return stage_info
 
 
-def tryCheckStage(device, expected_stage, templates, retries=5, debug=False):
+def tryCheckStage(device, expected_stage, templates, retries=10, debug=False):
     for attempt in range(1, retries + 1):
         try:
             return checkStage(device, expected_stage, templates, debug)
