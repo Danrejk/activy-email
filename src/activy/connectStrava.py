@@ -186,7 +186,11 @@ def connectStravaStage8(device, templates):
     Stage 8: Go back to main screen.
     """
     device.press("back")
+    time.sleep(0.2)
     device.press("back")
+    time.sleep(0.2)
+    device.press("back")
+    time.sleep(0.2)
     device.press("back")
 
     tryCheckStage(device, 8, templates)
