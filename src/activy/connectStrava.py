@@ -57,32 +57,38 @@ def connectStravaStage4(device, templates):
         else:
             raise ValueError("Connect with Strava button not found")
     else:
-        raise ValueError("View containing Strava information not found")
+        raise TimeoutError("Didn't find the parent view")
 
     try:
-        tryCheckStage(device, "4o401", templates, retries=50)
-        connectStravaStage401(device, templates)
-    except:
-        try:
-            tryCheckStage(device, 4, templates)
-        except:
-            tryCheckStage(device, 402, templates)
+        stage = tryCheckStage(device, ["4","4o401","401or4o402","402or4o403"], templates, retries=50)
+        if stage[0] == "4o401":
+            connectStravaStage401(device, templates)
+        elif stage[0] == "401or4o402":
             connectStravaStage402(device, templates)
+        elif stage[0] == "402or4o403":
+            connectStravaStage403(device, templates)
+
+    except:
+        raise TimeoutError("Connect with Strava button not found or didn't properly move to the login screen")
 
     print("Stage 4 completed")
 
-# 400, 401, 402 are only neccessary if it's the first time
+# 401, 402, 403 are only neccessary if it's the first time
 def connectStravaStage401(device, templates):
     """
     Stage 401: Accept chrome statistics on first launch
+    (Sometimes it can be skipped and go straight to 402)
     """
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
     try:
-        tryCheckStage(device, 401, templates)
-        connectStravaStage402(device, templates)
+        stage = tryCheckStage(device, ["4", "401or4o402","402or4o403"], templates)
+        if stage[0] == "401or4o402":
+            connectStravaStage402(device, templates)
+        elif stage[0] == "402or4o403":
+            connectStravaStage403(device, templates)
     except:
-        tryCheckStage(device, 4, templates)
+        raise TimeoutError("Didn't accept chrome statistics or didn't properly move to the login screen")
 
     print("Stage 401 completed")
 
@@ -93,10 +99,11 @@ def connectStravaStage402(device, templates):
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
     try:
-        tryCheckStage(device, 402, templates)
-        connectStravaStage403(device, templates)
+        stage = tryCheckStage(device, ["4", "402or4o403"], templates)
+        if stage[0] == "402or4o403":
+            connectStravaStage403(device, templates)
     except:
-        tryCheckStage(device, 4, templates)
+        raise TimeoutError("Didn't decline synchronisation or didn't properly move to the login screen")
     print("Stage 402 completed")
 
 def connectStravaStage403(device, templates):
@@ -115,14 +122,13 @@ def connectStravaStage5(device, templates, email):
     setNodeTextByClassInstance(device, "android.widget.EditText", 0, email)
     clickNodeByClassInstance(device, "android.widget.Button", 5)
 
-    tryCheckStage(device, 5, templates, retries=10) # more retries due to an object from stage 4 still being present
+    tryCheckStage(device, 5, templates)
     print("Stage 5 completed")
 
 def connectStravaStage6(device, templates, password):
     """
     Stage 6: Put in password.
     """
-    # to be tested
     setNodeTextByClassInstance(device, "android.widget.EditText", 0, password)
     clickNodeByClassInstance(device, "android.widget.Button", 3)
 
