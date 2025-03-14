@@ -1,3 +1,5 @@
+from src.activy.utils.debug.drawNodeBoundaries import drawNodeBoundaries
+from src.activy.utils.debug.dumpHierarchy import dumpHierarchy
 from src.activy.utils.getStage import load_templates
 from src.activy.utils.checkStage import tryCheckStage
 from src.activy.utils.controlNodes.waitForElement import waitForElement
@@ -41,7 +43,18 @@ def registerStage4(device, templates):
     """
     Stage 4: Select gender and click next.
     """
-    clickNodeByClassInstance(device, "android.widget.ImageView", 1)
+
+    # this has to be done using child of view6 because it's an imageView and those have a changing index
+    parent_view = waitForElement(device, className="android.view.View", instance=6)
+    if parent_view.exists:
+        child_view = parent_view.child(index=0)
+        if child_view.exists:
+            child_view.click()
+        else:
+            raise ValueError("Gender button not found")
+    else:
+        raise ValueError("Gender button array view not found")
+
     clickNodeByClassInstance(device, "android.view.View", 7)
 
     tryCheckStage(device, 4, templates)
@@ -95,8 +108,10 @@ def registerStage9(device, templates):
     Stage 9: Click next.
     """
     last_node = clickNodeByClassInstance(device, "android.view.View", 11)
-    last_node.wait_gone(timeout=10)
+    last_node.wait_gone(timeout=50)
     print("Stage 9 completed")
+
+# HERE THERE HAVE TO BE MORE STAGES FOR SELECTING CHALLENGES
 
 
 def Register(device, email, password, name, surname, nickname):

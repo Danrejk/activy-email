@@ -1,3 +1,6 @@
+from src.activy.utils.controlNodes.waitForElement import waitForElement
+from src.activy.utils.debug.drawNodeBoundaries import drawNodeBoundaries
+from src.activy.utils.debug.dumpHierarchy import dumpHierarchy
 from src.activy.utils.getStage import load_templates, getStage
 from src.activy.utils.checkStage import tryCheckStage
 from src.activy.utils.clearChrome import clearChrome
@@ -6,12 +9,21 @@ from src.activy.utils.controlNodes.setNodeTextByClassInstance import setNodeText
 
 def connectStravaStage1(device, templates):
     """
-    Stage 1: Click the settings button.
+    Stage 1: Click the settings
     """
-    clickNodeByClassInstance(device, "android.widget.ImageView", 2)
+    # this has to be done with proportions to click in a specific area where the tab selector is
+    # the challange button is an imageView which has a varries ammount of instances
+    width = device.info["displayWidth"]
+    height = device.info["displayHeight"]
+    x = int(width * 12 / 13)
+    y = int(100)
+    device.click(x, y)
 
-    tryCheckStage(device, 1, templates)
-    print("Stage 1 completed")
+    try:
+        tryCheckStage(device, "mainMenu", templates)
+        raise ValueError("Didn't move to settings.")
+    except:
+        print("Stage 1 completed")
 
 def connectStravaStage2(device, templates):
     """
@@ -43,7 +55,17 @@ def connectStravaStage4(device, templates):
     """
     Stage 4: Click connect with Strava.
     """
-    clickNodeByClassInstance(device, "android.widget.ImageView", 4)
+
+    # This has to be done using child of view4 because it's an imageView and those have a changing index
+    parent_view = waitForElement(device, className="android.view.View", instance=4)
+    if parent_view.exists:
+        child_view = parent_view.child(index=4)
+        if child_view.exists:
+            child_view.click()
+        else:
+            raise ValueError("Connect with Strava button not found")
+    else:
+        raise ValueError("View containing Strava information not found")
 
     try:
         tryCheckStage(device, "4o401", templates, retries=50)
@@ -52,7 +74,7 @@ def connectStravaStage4(device, templates):
         try:
             tryCheckStage(device, 4, templates)
         except:
-            tryCheckStage(device, 401, templates)
+            tryCheckStage(device, 402, templates)
             connectStravaStage402(device, templates)
 
     print("Stage 4 completed")
@@ -138,16 +160,17 @@ def connectStravaStage8(device, templates):
 
 def connectStrava(device, email, password):
     templates = load_templates("opencv/connectStrava")
+    templatesGeneralNavigation = load_templates("opencv/generalNavigation")
 
-    connectStravaStage1(device, templates)
+    connectStravaStage1(device, templatesGeneralNavigation)
     connectStravaStage2(device, templates)
     connectStravaStage3(device, templates)
 
     # PROBLEM. The user is still logged onto strava
-    try:
-        clearChrome()
-    except ValueError as e:
-        raise e
+    # try:
+    #     clearChrome()
+    # except ValueError as e:
+    #     raise e
 
     connectStravaStage4(device, templates)
     connectStravaStage5(device, templates, email)
