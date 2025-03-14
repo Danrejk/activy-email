@@ -1,9 +1,7 @@
+from src.activy.utils.clickSettings import clickSettings
 from src.activy.utils.controlNodes.waitForElement import waitForElement
-from src.activy.utils.debug.drawNodeBoundaries import drawNodeBoundaries
-from src.activy.utils.debug.dumpHierarchy import dumpHierarchy
-from src.activy.utils.getStage import load_templates, getStage
-from src.activy.utils.checkStage import tryCheckStage
-from src.activy.utils.clearChrome import clearChrome
+from src.activy.utils.stage.getStage import load_templates, getStage
+from src.activy.utils.stage.checkStage import tryCheckStage
 from src.activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 from src.activy.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
 
@@ -11,13 +9,7 @@ def connectStravaStage1(device, templates):
     """
     Stage 1: Click the settings
     """
-    # this has to be done with proportions to click in a specific area where the tab selector is
-    # the challange button is an imageView which has a varries ammount of instances
-    width = device.info["displayWidth"]
-    height = device.info["displayHeight"]
-    x = int(width * 12 / 13)
-    y = int(100)
-    device.click(x, y)
+    clickSettings(device)
 
     try:
         tryCheckStage(device, "mainMenu", templates)
