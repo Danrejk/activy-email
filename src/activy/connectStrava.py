@@ -1,9 +1,13 @@
+import time
+
 from src.activy.utils.clickSettings import clickSettings
 from src.activy.utils.controlNodes.waitForElement import waitForElement
-from src.activy.utils.stage.getStage import load_templates, getStage
+from src.activy.utils.stage.getStage import getStage
 from src.activy.utils.stage.checkStage import tryCheckStage
 from src.activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 from src.activy.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
+from src.activy.utils.stage.loadTemplates import load_templates
+
 
 def connectStravaStage1(device, templates):
     """
@@ -16,6 +20,7 @@ def connectStravaStage1(device, templates):
         raise ValueError("Didn't move to settings.")
     except:
         print("Stage 1 completed")
+
 
 def connectStravaStage2(device, templates):
     """
@@ -34,6 +39,7 @@ def connectStravaStage2(device, templates):
 
     print("Stage 2 completed")
 
+
 def connectStravaStage3(device, templates):
     """
     Stage 3: Select Strava.
@@ -42,6 +48,7 @@ def connectStravaStage3(device, templates):
 
     tryCheckStage(device, 3, templates)
     print("Stage 3 completed")
+
 
 def connectStravaStage4(device, templates):
     """
@@ -60,7 +67,7 @@ def connectStravaStage4(device, templates):
         raise TimeoutError("Didn't find the parent view")
 
     try:
-        stage = tryCheckStage(device, ["4","4o401","401or4o402","402or4o403"], templates, retries=50)
+        stage = tryCheckStage(device, ["4", "4o401", "401or4o402", "402or4o403"], templates, retries=50)
         if stage[0] == "4o401":
             connectStravaStage401(device, templates)
         elif stage[0] == "401or4o402":
@@ -73,6 +80,7 @@ def connectStravaStage4(device, templates):
 
     print("Stage 4 completed")
 
+
 # 401, 402, 403 are only neccessary if it's the first time
 def connectStravaStage401(device, templates):
     """
@@ -82,7 +90,7 @@ def connectStravaStage401(device, templates):
     clickNodeByClassInstance(device, "android.widget.Button", 0)
 
     try:
-        stage = tryCheckStage(device, ["4", "401or4o402","402or4o403"], templates)
+        stage = tryCheckStage(device, ["4", "401or4o402", "402or4o403"], templates)
         if stage[0] == "401or4o402":
             connectStravaStage402(device, templates)
         elif stage[0] == "402or4o403":
@@ -91,6 +99,7 @@ def connectStravaStage401(device, templates):
         raise TimeoutError("Didn't accept chrome statistics or didn't properly move to the login screen")
 
     print("Stage 401 completed")
+
 
 def connectStravaStage402(device, templates):
     """
@@ -106,6 +115,7 @@ def connectStravaStage402(device, templates):
         raise TimeoutError("Didn't decline synchronisation or didn't properly move to the login screen")
     print("Stage 402 completed")
 
+
 def connectStravaStage403(device, templates):
     """
     Stage 403: Accept cookies
@@ -115,15 +125,40 @@ def connectStravaStage403(device, templates):
     tryCheckStage(device, 4, templates)
     print("Stage 403 completed")
 
+
 def connectStravaStage5(device, templates, email):
     """
     Stage 5: Put in email.
+    Branching: 501 Sometimes Strava will promt you to switch to one-time codes, reject it
     """
     setNodeTextByClassInstance(device, "android.widget.EditText", 0, email)
     clickNodeByClassInstance(device, "android.widget.Button", 5)
 
-    tryCheckStage(device, 5, templates)
+    try:
+        stage = tryCheckStage(device, [5,"5o501"], templates, ignored_stage="4")
+        if stage == "5o501":
+            connectStravaStage501(device, templates)
+    except ValueError as e:
+        raise e
     print("Stage 5 completed")
+
+
+def connectStravaStage501(device, templates):
+    """
+    Stage 501: Reject one-time codes by clicking 'Use password instead'
+    """
+
+    # unfortunately hardcoded due to the lack of a proper way to identify the button
+
+    device.swipe(360, 600, 360, 200, 0.1)
+    # these clicks are done in this way to trick recaptcha
+    device.long_click(350, 900, 0.5)
+    device.long_click(350.1, 912.2, 0.1)
+    device.swipe(360, 400, 360, 800, 0.1)
+
+    tryCheckStage(device, 5, templates, ignored_stage=4)
+    print("Stage 501 completed")
+
 
 def connectStravaStage6(device, templates, password):
     """
@@ -135,6 +170,7 @@ def connectStravaStage6(device, templates, password):
     tryCheckStage(device, 6, templates)
     print("Stage 6 completed")
 
+
 def connectStravaStage7(device, templates):
     """
     Stage 7: Authorise Activy.
@@ -143,6 +179,7 @@ def connectStravaStage7(device, templates):
 
     tryCheckStage(device, 7, templates)
     print("Stage 7 completed")
+
 
 def connectStravaStage8(device, templates):
     """
@@ -177,5 +214,3 @@ def connectStrava(device, email, password):
     connectStravaStage8(device, templates)
 
     print(f"Connected strava for {email}")
-
-
