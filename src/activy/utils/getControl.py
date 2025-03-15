@@ -2,45 +2,56 @@ import cv2
 import tempfile
 import os
 
-def getControl(device, templates, threshold=0.7, debug=False):
+def getControl(device, templates, expectedControl, threshold=0.7, debug=False):
     """
-    Detects a control element on the screen based on provided templates.
-    Returns the center coordinates of the best-matching template or None if no match is found.
+    Detects a specific control element on the screen.
+    Accepts expectedControl as a string, list, or int.
+    Returns the center coordinates of the expected control if found, else None.
     """
-    if debug:
-        screenshot_path = "screen.png"
+    # Zorg ervoor dat expectedControl een lijst is
+    if isinstance(expectedControl, (list, tuple)):
+        expectedControlList = [str(item) for item in expectedControl]
     else:
-        screenshot_path = tempfile.mktemp(suffix=".png")
+        expectedControlList = [str(expectedControl)]
 
-    device.screenshot(screenshot_path)
+    if debug:
+        screenshotPath = "screen.png"
+    else:
+        screenshotPath = tempfile.mktemp(suffix=".png")
 
-    screen = cv2.imread(screenshot_path, cv2.IMREAD_COLOR)
-    screen_gray = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
+    device.screenshot(screenshotPath)
 
-    best_match = None
-    best_score = 0
-    best_center = None
+    screen = cv2.imread(screenshotPath, cv2.IMREAD_COLOR)
+    screenGray = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
 
-    for control_name, template in templates.items():
-        result = cv2.matchTemplate(screen_gray, template, cv2.TM_CCOEFF_NORMED)
-        _, max_val, _, max_loc = cv2.minMaxLoc(result)
+    bestMatch = None
+    bestScore = 0
+    bestCoordinates = None
+
+    for controlName in expectedControlList:
+        if controlName not in templates:
+            continue  # Skip als de template niet bestaat
+
+        template = templates[controlName]
+        result = cv2.matchTemplate(screenGray, template, cv2.TM_CCOEFF_NORMED)
+        _, maxVal, _, maxLoc = cv2.minMaxLoc(result)
 
         if debug:
-            print(f"Control {control_name}: Match confidence = {max_val:.2f}")
+            print(f"Control {controlName}: Match confidence = {maxVal:.2f}")
 
-        if max_val > best_score and max_val >= threshold:
-            best_match = control_name
-            best_score = max_val
-            template_height, template_width = template.shape[:2]
-            best_center = (max_loc[0] + template_width // 2, max_loc[1] + template_height // 2)
+        if maxVal > bestScore and maxVal >= threshold:
+            bestMatch = controlName
+            bestScore = maxVal
+            templateHeight, templateWidth = template.shape[:2]
+            bestCoordinates = (maxLoc[0] + templateWidth // 2, maxLoc[1] + templateHeight // 2)
 
     if debug:
-        if best_match is None:
+        if bestMatch is None:
             print(f"No control found above threshold ({threshold})")
         else:
-            print(f"Best match: {best_match}, Certainty: {best_score:.2f}, Center: {best_center}")
+            print(f"Best match: {bestMatch}, Certainty: {bestScore:.2f}, Center: {bestCoordinates}")
 
     if not debug:
-        os.remove(screenshot_path)
+        os.remove(screenshotPath)
 
-    return best_center if best_center else None
+    return bestCoordinates
