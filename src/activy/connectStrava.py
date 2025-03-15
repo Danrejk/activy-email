@@ -149,6 +149,7 @@ def connectStravaStage501(device, templates):
     """
 
     # unfortunately hardcoded due to the lack of a proper way to identify the button
+    # if this proves to be a problem in the future, we can use opencv to find the location of the button
 
     device.swipe(360, 600, 360, 200, 0.1)
     # these clicks are done in this way to trick recaptcha
