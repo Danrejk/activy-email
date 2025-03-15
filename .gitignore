@@ -5,3 +5,5 @@ venv
 *.db
 node_modules/
 *.gpx
+*/nodes.png
+*/test.py

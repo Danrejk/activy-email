@@ -1,10 +1,15 @@
-from src.activy.utils.debug.drawNodeBoundaries import drawNodeBoundaries
-from src.activy.utils.debug.dumpHierarchy import dumpHierarchy
-from src.activy.utils.getStage import load_templates
-from src.activy.utils.checkStage import tryCheckStage
+import subprocess
+import time
+
+from src.activy.utils.getControl import getControl
+from src.activy.utils.getCurretlyOpenApp import getCurrentlyOpenApp
+from src.activy.utils.isAdbAvailable import isAdbAvailable
+from src.activy.utils.stage.checkStage import tryCheckStage
 from src.activy.utils.controlNodes.waitForElement import waitForElement
 from src.activy.utils.controlNodes.clickNodeByClassInstance import clickNodeByClassInstance
 from src.activy.utils.controlNodes.setNodeTextByClassInstance import setNodeTextByClassInstance
+from src.activy.utils.stage.loadTemplates import load_templates
+
 
 def registerStage1(device, templates):
     """
@@ -27,17 +32,68 @@ def registerStage2(device, templates, email, password):
     tryCheckStage(device, 2, templates)
     print("Stage 2 completed")
 
-def registerStage3(device, templates, name, surname, nickname):
+def registerStage3(device, templates, controlsTemplates, name, surname, nickname, avatar=None):
     """
     Stage 3: Enter name, surname, and nickname.
     """
     setNodeTextByClassInstance(device, "android.widget.EditText", 0, name)
     setNodeTextByClassInstance(device, "android.widget.EditText", 1, surname)
     setNodeTextByClassInstance(device, "android.widget.EditText", 2, nickname)
+
+    # Avatar selection
+    if avatar:
+        coordinates = getControl(device, templates, "addAvatar", debug=True)
+        device.click(coordinates[0], coordinates[1])
+        clickNodeByClassInstance(device, "android.view.View", 5)
+        for i in range (0, 10):
+            if getCurrentlyOpenApp(device) == "com.google.android.documentsui":
+                registerStage301(device, templates, controlsTemplates, avatar)
+                break
+            if i == 9:
+                raise ValueError("Didn't move to gallery app")
+            time.sleep(1)
+
     clickNodeByClassInstance(device, "android.view.View", 13)
 
     tryCheckStage(device, 3, templates)
     print("Stage 3 completed")
+
+def registerStage301(device, templates, controlsTemplates, avatarPath):
+    """
+    Stage 301: Send image to AVD and select image in gallery.
+    """
+    if not isAdbAvailable():
+        raise EnvironmentError("ADB is not available in PATH. Please install ADB and add it to your system PATH.")
+
+    # send image to avd
+    avdAvatarPath = "/sdcard/Download/avatar.png"
+    adbPushCommand = f"adb push \"{avatarPath}\" \"{avdAvatarPath}\""
+    result = subprocess.run(adbPushCommand, shell=True, capture_output=True, text=True)
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to push avatar to AVD: {result.stderr}")
+
+    # navigate through gallery
+    clickNodeByClassInstance(device, "android.widget.ImageButton", 0)
+    templates = load_templates("opencv/register/controls")
+    time.sleep(0.75)
+    coordinates = getControl(device, templates, "downloads", debug=True)
+    device.click(coordinates[0], coordinates[1])
+
+    try:
+        avatar_element = waitForElement(device, contentDesc="avatar.png, ")
+        avatar_element.click()
+    except Exception as e:
+        print(f"Failed to find avatar.png: {e}")
+
+    time.sleep(1)
+    clickNodeByClassInstance(device, "android.widget.Button", 0)
+
+    try:
+        tryCheckStage(device, 2, templates)
+        print("Stage 301 completed")
+    except Exception as e:
+        raise TimeoutError(f"Failed to select an Avatar: {e}")
+
 
 def registerStage4(device, templates):
     """
@@ -114,17 +170,18 @@ def registerStage9(device, templates):
 # HERE THERE HAVE TO BE MORE STAGES FOR SELECTING CHALLENGES
 
 
-def Register(device, email, password, name, surname, nickname):
+def register(device, email, password, name, surname, nickname, avatar=None):
     templates = load_templates("opencv/register")
+    controlsTemplates = load_templates("opencv/register/controls")
 
-    registerStage1(device, templates)
-    registerStage2(device, templates, email, password)
-    registerStage3(device, templates, name, surname, nickname)
-    registerStage4(device, templates)
-    registerStage5(device, templates)
-    registerStage6(device, templates)
-    registerStage7(device, templates)
-    registerStage8(device, templates)
-    registerStage9(device, templates)
+    # registerStage1(device, templates)
+    # registerStage2(device, templates, email, password)
+    registerStage3(device, templates, controlsTemplates,  name, surname, nickname, avatar)
+    # registerStage4(device, templates)
+    # registerStage5(device, templates)
+    # registerStage6(device, templates)
+    # registerStage7(device, templates)
+    # registerStage8(device, templates)
+    # registerStage9(device, templates)
 
     print(f"Registered {nickname}")
